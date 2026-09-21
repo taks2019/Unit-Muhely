@@ -1,0 +1,50 @@
+name: APK építés
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: UnityTool
+
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+
+      - name: Java beállítása
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Python beállítása
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: UnityPy telepítése
+        run: |
+          pip install UnityPy==1.9.28 --no-deps
+
+      - name: Gradle beállítása
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.7"
+
+      - name: APK fordítása
+        run: |
+          gradle assembleDebug --no-daemon --stacktrace
+
+      - name: APK feltöltése
+        uses: actions/upload-artifact@v4
+        with:
+          name: UnityMuhely-apk
+          path: UnityTool/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
