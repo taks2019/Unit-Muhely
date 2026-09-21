@@ -29,9 +29,12 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: UnityPy telepítése
+      - name: UnityPy beillesztése
         run: |
-          pip install UnityPy==1.9.28 --no-deps
+          pip download UnityPy==1.9.28 --no-deps --no-binary :all: -d /tmp/up
+          tar xzf /tmp/up/*.tar.gz -C /tmp/up
+          cp -r /tmp/up/UnityPy-1.9.28/UnityPy app/src/main/python/UnityPy
+          rm -rf app/src/main/python/UnityPy/lib
 
       - name: Gradle beállítása
         uses: gradle/actions/setup-gradle@v4
