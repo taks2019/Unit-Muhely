@@ -1,5 +1,4 @@
-name: APK építés
-
+name: Apk Építés
 on:
   push:
     branches:
