@@ -1,0 +1,3 @@
+<resources>
+    <style name="Theme.UnityMuhely" parent="android:Theme.Material.NoActionBar" />
+</resources>
